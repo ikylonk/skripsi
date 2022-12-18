@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppDimen {
   //DEFAULT MARGIN & RADIUS
   static double margin = 24.0.w;
-  static double radius = 17.0.w;
+  static double radius = 18.0.w;
 
   // WIDTH
   static double w2 = 2.0.w;
