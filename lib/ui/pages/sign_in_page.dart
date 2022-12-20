@@ -38,7 +38,12 @@ class SignInPage extends StatelessWidget {
       }
 
       Widget submitButton() {
-        return CustomButton(title: "Masuk", onPressed: () {});
+        return CustomButton(
+            title: "Masuk",
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppRoutes.main, (route) => false);
+            });
       }
 
       Widget registerText() {
