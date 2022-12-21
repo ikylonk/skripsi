@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skripsi/cubit/authentication/auth_cubit.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
@@ -38,12 +40,34 @@ class SignInPage extends StatelessWidget {
       }
 
       Widget submitButton() {
-        return CustomButton(
-            title: "Masuk",
-            onPressed: () {
+        return BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSuccess) {
               Navigator.pushNamedAndRemoveUntil(
                   context, AppRoutes.main, (route) => false);
-            });
+            } else if (state is AuthFailed) {
+              debugPrint(state.error);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.error),
+                  backgroundColor: redColor,
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return CustomButton(
+                title: "Masuk",
+                onPressed: () {
+                  context.read<AuthCubit>().signIn(
+                      email: emailController.text,
+                      password: passwordController.text);
+                });
+          },
+        );
       }
 
       Widget registerText() {
@@ -83,28 +107,51 @@ class SignInPage extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              SizedBox(
-                  height: 50.h,
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: ElevatedButton.icon(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: primaryColor,
-                        onPrimary: blackColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppDimen.margin)),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthGoogleSuccess) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, AppRoutes.main, (route) => false);
+                  } else if (state is AuthFailed) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error),
+                        backgroundColor: redColor,
                       ),
-                      icon: Image.asset(
-                        'assets/icon_google.png',
-                        width: 24.w,
-                        height: 24.h,
-                      ),
-                      label: Text(
-                        "Google",
-                        style: whiteTextStyle.copyWith(
-                            fontWeight: medium, fontSize: 18.sp),
-                      ))),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    return SizedBox(
+                        height: 50.h,
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: ElevatedButton.icon(
+                            onPressed: () {
+                              context.read<AuthCubit>().signInWithGoogle();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: primaryColor,
+                              onPrimary: blackColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(AppDimen.margin)),
+                            ),
+                            icon: Image.asset(
+                              'assets/icon_google.png',
+                              width: 24.w,
+                              height: 24.h,
+                            ),
+                            label: Text(
+                              "Google",
+                              style: whiteTextStyle.copyWith(
+                                  fontWeight: medium, fontSize: 18.sp),
+                            )));
+                  }
+                },
+              ),
             ],
           ),
         );

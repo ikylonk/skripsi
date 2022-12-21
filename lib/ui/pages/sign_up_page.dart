@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skripsi/cubit/authentication/auth_cubit.dart';
+import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
@@ -9,6 +12,7 @@ import 'package:skripsi/ui/widgets/custom_text_form_field.dart';
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
 
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -24,7 +28,7 @@ class SignUpPage extends StatelessWidget {
     Widget inputSection() {
       Widget nameInput() {
         return CustomTextFormField(
-            controller: emailController, title: 'Full Name');
+            controller: nameController, title: 'Full Name');
       }
 
       Widget emailInput() {
@@ -41,46 +45,35 @@ class SignUpPage extends StatelessWidget {
       }
 
       Widget submitButton() {
-        return CustomButton(title: "Daftar", onPressed: () {});
-      }
-
-      Widget registerAnother() {
-        return Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Atau Regiter Dengan",
-                style: blackTextStyle.copyWith(
-                    fontSize: 16.sp, fontWeight: semiBold),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              SizedBox(
-                  height: 50.h,
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: ElevatedButton.icon(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: primaryColor,
-                        onPrimary: blackColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppDimen.margin)),
-                      ),
-                      icon: Image.asset(
-                        'assets/icon_google.png',
-                        width: 24.w,
-                        height: 24.h,
-                      ),
-                      label: Text(
-                        "Google",
-                        style: whiteTextStyle.copyWith(
-                            fontWeight: medium, fontSize: 18.sp),
-                      ))),
-            ],
-          ),
+        return BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthSuccess) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppRoutes.main, (route) => false);
+            } else if (state is AuthFailed) {
+              debugPrint(state.error);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.error),
+                  backgroundColor: redColor,
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return CustomButton(
+                title: "Daftar",
+                onPressed: () {
+                  context.read<AuthCubit>().singUp(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        name: nameController.text,
+                      );
+                });
+          },
         );
       }
 
@@ -101,10 +94,6 @@ class SignUpPage extends StatelessWidget {
               emailInput(),
               passwordInput(),
               submitButton(),
-              SizedBox(
-                height: 16.h,
-              ),
-              registerAnother(),
             ],
           ),
         ),
