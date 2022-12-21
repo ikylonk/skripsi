@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/routes/app_routes.dart';
@@ -16,8 +17,15 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(
-          context, AppRoutes.started, (route) => false);
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, AppRoutes.started, (route) => false);
+      } else {
+        debugPrint(user.email);
+        Navigator.pushNamedAndRemoveUntil(
+            context, AppRoutes.main, (route) => false);
+      }
     });
     super.initState();
   }
