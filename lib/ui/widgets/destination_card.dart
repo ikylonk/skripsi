@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skripsi/models/harbor_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
+import 'package:skripsi/ui/pages/detail_harbor_page.dart';
 
-class DestinationCard extends StatelessWidget {
-  const DestinationCard({
+class HarborCard extends StatelessWidget {
+  final HarborModel harborModel;
+  const HarborCard({
     Key? key,
+    required this.harborModel,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailHarborPage(harborModel),
+        ),
+      ),
       child: Container(
         width: 200.w,
         height: 323.h,
@@ -28,8 +38,8 @@ class DestinationCard extends StatelessWidget {
               height: 220.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppDimen.radius),
-                image: const DecorationImage(
-                  image: AssetImage("assets/image_destination.png"),
+                image: DecorationImage(
+                  image: NetworkImage(harborModel.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -43,7 +53,7 @@ class DestinationCard extends StatelessWidget {
                     height: 20.h,
                   ),
                   Text(
-                    "Lombok",
+                    harborModel.name,
                     style: blackTextStyle.copyWith(
                         fontSize: 18.sp, fontWeight: medium),
                   ),
@@ -51,7 +61,7 @@ class DestinationCard extends StatelessWidget {
                     height: 5.h,
                   ),
                   Text(
-                    "Lembar, Indonesia",
+                    harborModel.location,
                     style: greyTextStyle.copyWith(
                         fontSize: 14.sp, fontWeight: light),
                   ),

@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 
 class PhotoItem extends StatelessWidget {
-  const PhotoItem({Key? key}) : super(key: key);
+  final String image;
+  const PhotoItem({Key? key, required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,7 @@ class PhotoItem extends StatelessWidget {
       margin: EdgeInsets.only(right: 16.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDimen.radius),
-        image: DecorationImage(
-            image: AssetImage("assets/image_photo.png"), fit: BoxFit.cover),
+        image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
       ),
     );
   }
