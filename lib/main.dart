@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/cubit/authentication/auth_cubit.dart';
+import 'package:skripsi/cubit/harbor/harbor_cubit.dart';
 import 'package:skripsi/cubit/page_cubit.dart';
+import 'package:skripsi/cubit/tiket/tiket_cubit.dart';
 import 'package:skripsi/firebase_options.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/ui/pages/get_started_page.dart';
@@ -44,6 +46,12 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => AuthCubit(),
+              ),
+              BlocProvider(
+                create: (context) => HarborCubit(),
+              ),
+              BlocProvider(
+                create: (context) => TiketCubit(),
               ),
             ],
             child: MaterialApp(

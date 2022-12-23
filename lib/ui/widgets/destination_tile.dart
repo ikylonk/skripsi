@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skripsi/models/tiket_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/pages/detail_page.dart';
 
 class DestinationTile extends StatelessWidget {
+  final TiketModel tiketModel;
+
   const DestinationTile({
     Key? key,
+    required this.tiketModel,
   }) : super(key: key);
 
   @override
@@ -15,7 +19,7 @@ class DestinationTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetailPage(),
+          builder: (context) => DetailPage(tiketModel),
         ),
       ),
       child: Container(
@@ -31,7 +35,7 @@ class DestinationTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "Lembar - Tanjung Perak",
+                  "${tiketModel.from} - ${tiketModel.destination}",
                   style: blackTextStyle.copyWith(
                       fontSize: 18.sp, fontWeight: medium),
                   maxLines: 2,

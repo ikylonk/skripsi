@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skripsi/models/tiket_model.dart';
+import 'package:skripsi/models/harbor_model.dart';
+import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/pages/choose_page.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
-import 'package:skripsi/ui/widgets/photo_item.dart';
 
-class DetailPage extends StatelessWidget {
-  final TiketModel tiketModel;
+class DetailHarborPage extends StatelessWidget {
+  final HarborModel harborModel;
 
-  const DetailPage(
-    this.tiketModel, {
+  const DetailHarborPage(
+    this.harborModel, {
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +18,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget backgroundImage() {
       return Image.network(
-        tiketModel.imageUrl,
+        harborModel.imageUrl,
         width: double.infinity,
         height: MediaQuery.of(context).size.height / 2,
         fit: BoxFit.cover,
@@ -68,10 +67,17 @@ class DetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${tiketModel.from} - ${tiketModel.destination}",
+                            harborModel.name,
                             style: whiteTextStyle.copyWith(
                                 fontWeight: semiBold, fontSize: 24.sp),
                             maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            harborModel.location,
+                            style: whiteTextStyle.copyWith(
+                                fontWeight: light, fontSize: 16.sp),
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
@@ -97,7 +103,7 @@ class DetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "About",
+                          "Tentang Pelabuhan",
                           style: blackTextStyle.copyWith(
                               fontSize: 16.sp, fontWeight: semiBold),
                         ),
@@ -105,30 +111,11 @@ class DetailPage extends StatelessWidget {
                           height: 6.sp,
                         ),
                         Text(
-                          tiketModel.about,
+                          harborModel.about,
                           style: blackTextStyle.copyWith(
                               height: 1.5.sp,
                               fontSize: 14.sp,
                               fontWeight: regular),
-                        ),
-                        // NOTE: PHOTOS
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                        Text(
-                          "Photos",
-                          style: blackTextStyle.copyWith(
-                              fontWeight: semiBold, fontSize: 16.sp),
-                        ),
-                        SizedBox(
-                          height: 6.h,
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                              children: tiketModel.photos.map((e) {
-                            return PhotoItem(image: e);
-                          }).toList()),
                         ),
                       ],
                     ),
@@ -138,43 +125,12 @@ class DetailPage extends StatelessWidget {
               //NOTE: PRICE & BOOK BUTTON
               Padding(
                 padding: EdgeInsets.symmetric(vertical: AppDimen.h30),
-                child: Row(
-                  children: [
-                    // NOTE: PRICE
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            tiketModel.price.toString(),
-                            style: blackTextStyle.copyWith(
-                                fontSize: 18.sp, fontWeight: medium),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            "per orang",
-                            style: greyTextStyle.copyWith(
-                                fontSize: 14.sp, fontWeight: light),
-                          ),
-                        ],
-                      ),
-                    ), // NOTE: BUTTON
-                    CustomButton(
-                      title: "Pesan",
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChoosePage(),
-                            ));
-                      },
-                      width: MediaQuery.of(context).size.width / 2.5,
-                    ),
-                  ],
+                child: CustomButton(
+                  title: "Kembali",
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, AppRoutes.main, (route) => false);
+                  },
                 ),
               )
             ],
