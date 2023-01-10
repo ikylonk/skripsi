@@ -169,7 +169,7 @@ class DetailPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ChoosePage(),
+                              builder: (context) => ChoosePage(tiketModel),
                             ));
                       },
                       width: MediaQuery.of(context).size.width / 2.5,

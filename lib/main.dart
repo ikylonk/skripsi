@@ -7,7 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/cubit/authentication/auth_cubit.dart';
 import 'package:skripsi/cubit/harbor/harbor_cubit.dart';
 import 'package:skripsi/cubit/page_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_makan_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_mobil_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_motor_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_truk_cubit.dart';
+import 'package:skripsi/cubit/paket/people_cubit.dart';
 import 'package:skripsi/cubit/tiket/tiket_cubit.dart';
+import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/firebase_options.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/ui/pages/get_started_page.dart';
@@ -52,6 +58,24 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => TiketCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PaketMakanCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PaketMotorCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PaketMobilCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PaketTrukCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PeopleCubit(),
+              ),
+              BlocProvider(
+                create: (context) => TransactionCubit(),
               ),
             ],
             child: MaterialApp(

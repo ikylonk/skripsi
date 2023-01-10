@@ -28,12 +28,18 @@ class SignUpPage extends StatelessWidget {
     Widget inputSection() {
       Widget nameInput() {
         return CustomTextFormField(
-            controller: nameController, title: 'Full Name');
+          controller: nameController,
+          title: 'Full Name',
+          keyboardType: TextInputType.name,
+        );
       }
 
       Widget emailInput() {
         return CustomTextFormField(
-            controller: emailController, title: 'Email Address');
+          controller: emailController,
+          title: 'Email Address',
+          keyboardType: TextInputType.emailAddress,
+        );
       }
 
       Widget passwordInput() {
@@ -41,6 +47,7 @@ class SignUpPage extends StatelessWidget {
           controller: passwordController,
           title: 'Password',
           obscureText: true,
+          keyboardType: TextInputType.text,
         );
       }
 

@@ -1,5 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:skripsi/cubit/paket/paket_makan_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_mobil_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_motor_cubit.dart';
+import 'package:skripsi/cubit/paket/paket_truk_cubit.dart';
+import 'package:skripsi/cubit/paket/people_cubit.dart';
+import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
+import 'package:skripsi/models/tiket_model.dart';
+import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
@@ -7,12 +18,23 @@ import 'package:skripsi/ui/widgets/custom_button.dart';
 import 'package:skripsi/ui/widgets/custom_text_form_field.dart';
 
 class ChoosePage extends StatelessWidget {
-  const ChoosePage({
+  final TiketModel tiketModel;
+
+  ChoosePage(
+    this.tiketModel, {
     Key? key,
   }) : super(key: key);
 
+  final TextEditingController nomerWaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    var granTotal = (context.read<PeopleCubit>().state * tiketModel.price) +
+        context.read<PaketMakanCubit>().paketMakan +
+        context.read<PaketMotorCubit>().paketMotor +
+        context.read<PaketMobilCubit>().paketMobil +
+        context.read<PaketTrukCubit>().paketTruk;
+
     Widget title() {
       return Text(
         "Pilih Paket Tiket\nKapal Anda",
@@ -44,15 +66,19 @@ class ChoosePage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketMakanCubit>().increment();
+                          },
                           icon: const Icon(Icons.add_circle_outline)),
                       Text(
-                        "0",
+                        context.watch<PaketMakanCubit>().state.toString(),
                         style: blackTextStyle.copyWith(
                             fontSize: 14.sp, fontWeight: semiBold),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketMakanCubit>().decrement();
+                          },
                           icon: const Icon(Icons.remove_circle_outline)),
                     ],
                   )
@@ -88,15 +114,19 @@ class ChoosePage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketMotorCubit>().increment();
+                          },
                           icon: const Icon(Icons.add_circle_outline)),
                       Text(
-                        "0",
+                        context.watch<PaketMotorCubit>().state.toString(),
                         style: blackTextStyle.copyWith(
                             fontSize: 14.sp, fontWeight: semiBold),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketMotorCubit>().decrement();
+                          },
                           icon: const Icon(Icons.remove_circle_outline)),
                     ],
                   )
@@ -132,15 +162,19 @@ class ChoosePage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketMobilCubit>().increment();
+                          },
                           icon: const Icon(Icons.add_circle_outline)),
                       Text(
-                        "0",
+                        context.watch<PaketMobilCubit>().state.toString(),
                         style: blackTextStyle.copyWith(
                             fontSize: 14.sp, fontWeight: semiBold),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketMobilCubit>().decrement();
+                          },
                           icon: const Icon(Icons.remove_circle_outline)),
                     ],
                   )
@@ -176,15 +210,19 @@ class ChoosePage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketTrukCubit>().increment();
+                          },
                           icon: const Icon(Icons.add_circle_outline)),
                       Text(
-                        "0",
+                        context.watch<PaketTrukCubit>().state.toString(),
                         style: blackTextStyle.copyWith(
                             fontSize: 14.sp, fontWeight: semiBold),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PaketTrukCubit>().decrement();
+                          },
                           icon: const Icon(Icons.remove_circle_outline)),
                     ],
                   )
@@ -221,15 +259,19 @@ class ChoosePage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PeopleCubit>().increment();
+                          },
                           icon: const Icon(Icons.add_circle_outline)),
                       Text(
-                        "1",
+                        context.watch<PeopleCubit>().state.toString(),
                         style: blackTextStyle.copyWith(
                             fontSize: 14.sp, fontWeight: semiBold),
                       ),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<PeopleCubit>().decrement();
+                          },
                           icon: const Icon(Icons.remove_circle_outline)),
                     ],
                   )
@@ -248,7 +290,9 @@ class ChoosePage extends StatelessWidget {
                     height: 6.h,
                   ),
                   Text(
-                    "IDR 1.000.000",
+                    NumberFormat.currency(
+                            locale: 'id', symbol: 'IDR ', decimalDigits: 0)
+                        .format(granTotal),
                     style: purpleTextStyle.copyWith(
                         fontSize: 16.sp, fontWeight: semiBold),
                   ),
@@ -265,9 +309,10 @@ class ChoosePage extends StatelessWidget {
                 height: 12.h,
               ),
               CustomTextFormField(
-                controller: TextEditingController(),
+                controller: nomerWaController,
                 title:
                     "Silahkan Masukan Nomer whatsapp\nuntuk verifikasi tiket yang dipesanan",
+                keyboardType: TextInputType.number,
               )
             ],
           ),
@@ -276,10 +321,47 @@ class ChoosePage extends StatelessWidget {
     }
 
     Widget checkoutButton() {
-      return CustomButton(
-        title: "Pesan Tiket",
-        onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.success);
+      return BlocConsumer<TransactionCubit, TransactionState>(
+        listener: (context, state) {
+          if (state is TransactionSuccess) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, AppRoutes.success, (route) => false);
+          } else if (state is TransactionFailed) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.error),
+              backgroundColor: redColor,
+            ));
+          }
+        },
+        builder: (context, state) {
+          if (state is TransactionLoading) {
+            return Padding(
+              padding: EdgeInsets.only(top: AppDimen.h30),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
+            return CustomButton(
+              title: "Pesan Tiket",
+              onPressed: () {
+                context
+                    .read<TransactionCubit>()
+                    .createTransaction(TransactionModel(
+                      tiketModel: tiketModel,
+                      totalPerson: context.read<PeopleCubit>().state,
+                      paketMobil: context.read<PaketMobilCubit>().state,
+                      paketMotor: context.read<PaketMotorCubit>().state,
+                      paketMakan: context.read<PaketMakanCubit>().state,
+                      paketTruk: context.read<PaketTrukCubit>().state,
+                      grandTotal: granTotal,
+                      payOnTheSpot: true,
+                      numberWA: nomerWaController.text,
+                      price: tiketModel.price,
+                    ));
+              },
+            );
+          }
         },
       );
     }
