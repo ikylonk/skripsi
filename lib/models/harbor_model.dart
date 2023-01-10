@@ -11,7 +11,7 @@ class HarborModel extends Equatable {
     this.about = "",
   });
 
-  factory HarborModel.fromJason(String id, Map<String, dynamic> json) =>
+  factory HarborModel.fromJson(String id, Map<String, dynamic> json) =>
       HarborModel(
           id: id,
           name: json['name'],

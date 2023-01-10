@@ -28,14 +28,14 @@ class SignInPage extends StatelessWidget {
     Widget inputSection() {
       Widget emailInput() {
         return CustomTextFormField(
-            controller: emailController, title: 'Email Address');
+            controller: emailController, title: 'Email Address', keyboardType: TextInputType.emailAddress,);
       }
 
       Widget passwordInput() {
         return CustomTextFormField(
           controller: passwordController,
           title: 'Password',
-          obscureText: true,
+          obscureText: true, keyboardType: TextInputType.text,
         );
       }
 

@@ -15,7 +15,7 @@ class TiketModel extends Equatable {
     this.photos = const [],
   });
 
-  factory TiketModel.fromJason(String id, Map<String, dynamic> json) =>
+  factory TiketModel.fromJson(String id, Map<String, dynamic> json) =>
       TiketModel(
         id: id,
         from: json['from'],

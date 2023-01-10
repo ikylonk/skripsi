@@ -10,7 +10,7 @@ class HarborService {
 
       List<HarborModel> harbors = result.docs
           .map((e) =>
-              HarborModel.fromJason(e.id, e.data() as Map<String, dynamic>))
+              HarborModel.fromJson(e.id, e.data() as Map<String, dynamic>))
           .toList();
       return harbors;
     } catch (e) {

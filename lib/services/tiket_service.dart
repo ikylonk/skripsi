@@ -10,7 +10,7 @@ class TiketService {
 
       List<TiketModel> tikets = result.docs
           .map((e) =>
-              TiketModel.fromJason(e.id, e.data() as Map<String, dynamic>))
+              TiketModel.fromJson(e.id, e.data() as Map<String, dynamic>))
           .toList();
       return tikets;
     } catch (e) {
