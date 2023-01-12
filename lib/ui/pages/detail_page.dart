@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:skripsi/models/tiket_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
@@ -146,7 +147,11 @@ class DetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            tiketModel.price.toString(),
+                            NumberFormat.currency(
+                                    locale: 'id',
+                                    symbol: 'IDR ',
+                                    decimalDigits: 0)
+                                .format(tiketModel.price),
                             style: blackTextStyle.copyWith(
                                 fontSize: 18.sp, fontWeight: medium),
                             maxLines: 2,

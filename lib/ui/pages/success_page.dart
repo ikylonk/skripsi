@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/pages/checkout_page.dart';
+import 'package:skripsi/ui/pages/transation_detail_page.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 
 class SuccessPage extends StatelessWidget {
-  const SuccessPage({Key? key}) : super(key: key);
+  final TransactionModel transactionModel;
+
+  const SuccessPage(this.transactionModel, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +48,12 @@ class SuccessPage extends StatelessWidget {
             CustomButton(
               title: "Tiket",
               onPressed: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CheckoutPage(),
-                    ));
+                        builder: (context) =>
+                            TransactionDetailPage(transactionModel)),
+                    (route) => false);
               },
               width: MediaQuery.of(context).size.width / 2,
             ),
