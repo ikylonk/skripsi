@@ -17,7 +17,7 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
-    context.read<TransactionCubit>().fetchTransaction();
+    context.read<TransactionCubit>().filter(context.read<AuthCubit>().userId!);
     super.initState();
   }
 

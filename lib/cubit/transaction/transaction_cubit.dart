@@ -30,4 +30,15 @@ class TransactionCubit extends Cubit<TransactionState> {
       emit(TransactionFailed(e.toString()));
     }
   }
+
+  Future<void> filter(String userId) async {
+    try {
+      emit(TransactionLoading());
+      List<TransactionModel> transactions =
+          await TransactionService().filter(userId);
+      emit(TransactionSuccess(transactions));
+    } catch (e) {
+      emit(TransactionFailed(e.toString()));
+    }
+  }
 }
