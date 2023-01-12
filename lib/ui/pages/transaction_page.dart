@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skripsi/cubit/authentication/auth_cubit.dart';
 import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
@@ -16,7 +17,7 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
-    context.read<TransactionCubit>().fetchTransaction();
+    context.read<TransactionCubit>().filter(context.read<AuthCubit>().userId!);
     super.initState();
   }
 
@@ -47,10 +48,18 @@ class _TransactionPageState extends State<TransactionPage> {
                     TransactionCard(state.transactions[index]),
               );
             }
+          } else if (state is AuthFailed) {
+            return Center(
+              child: Text(
+                "Transaction Page 404",
+                style: blackTextStyle.copyWith(
+                    fontSize: 20.sp, fontWeight: semiBold),
+              ),
+            );
           } else {
             return Center(
               child: Text(
-                "Transaction Page",
+                "Transaction Page ada masalah",
                 style: blackTextStyle.copyWith(
                     fontSize: 20.sp, fontWeight: semiBold),
               ),

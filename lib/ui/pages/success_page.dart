@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/pages/transation_detail_page.dart';
+import 'package:skripsi/ui/pages/transaction_detail_page.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 
 class SuccessPage extends StatelessWidget {

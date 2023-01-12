@@ -81,7 +81,7 @@ class TransactionDetailPage extends StatelessWidget {
               ),
               BookingDetailItem(
                   title: "Pemesan",
-                  valueText: "Riki Hikmianto",
+                  valueText: transactionModel.name,
                   valueColor: blackColor),
               BookingDetailItem(
                   title: "Jumlah",

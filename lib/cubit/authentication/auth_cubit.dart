@@ -7,6 +7,9 @@ import 'package:skripsi/services/auth_service.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
+  late String? name = "";
+  late String? userId = "";
+
   AuthCubit() : super(AuthInitial());
 
   Future<void> signIn({required String email, required String password}) async {
@@ -15,6 +18,8 @@ class AuthCubit extends Cubit<AuthState> {
       UserModel userModel =
           await AuthService().signIn(email: email, password: password);
       emit(AuthSuccess(userModel));
+      name = userModel.name;
+      userId = userModel.id;
     } catch (e) {
       emit(AuthFailed(e.toString()));
     }
@@ -29,6 +34,8 @@ class AuthCubit extends Cubit<AuthState> {
       UserModel userModel = await AuthService()
           .signUp(email: email, password: password, name: name);
       emit(AuthSuccess(userModel));
+      name = userModel.name;
+      userId = userModel.id;
     } catch (e) {
       emit(AuthFailed(e.toString()));
     }
@@ -49,6 +56,8 @@ class AuthCubit extends Cubit<AuthState> {
       AuthLoading();
       UserCredential userCredential = await AuthService().signInWithGoogle();
       emit(AuthGoogleSuccess(userCredential));
+      name = userCredential.user?.displayName;
+      userId = userCredential.user?.uid;
     } catch (e) {
       emit(AuthFailed(e.toString()));
     }
