@@ -21,7 +21,6 @@ import 'package:skripsi/ui/pages/main_page.dart';
 import 'package:skripsi/ui/pages/sign_in_page.dart';
 import 'package:skripsi/ui/pages/sign_up_page.dart';
 import 'package:skripsi/ui/pages/splash_page.dart';
-import 'package:skripsi/ui/pages/success_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,7 +85,6 @@ class MyApp extends StatelessWidget {
                 AppRoutes.signin: (context) => SignInPage(),
                 AppRoutes.signup: (context) => SignUpPage(),
                 AppRoutes.main: (context) => const MainPage(),
-                AppRoutes.success: (context) => const SuccessPage(),
               },
               initialRoute: AppRoutes.splash,
             ),

@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/widgets/booking_detail_item.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 
-class CheckoutPage extends StatelessWidget {
-  const CheckoutPage({Key? key}) : super(key: key);
+class TransactionDetailPage extends StatelessWidget {
+  final TransactionModel transactionModel;
+
+  const TransactionDetailPage(this.transactionModel, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +35,20 @@ class CheckoutPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "CGK",
+                    transactionModel.tiketModel.from,
                     style: blackTextStyle.copyWith(
                         fontSize: 24.sp, fontWeight: semiBold),
                   ),
-                  Text(
-                    "Tangerang",
-                    style: greyTextStyle.copyWith(
-                        fontSize: 14.sp, fontWeight: light),
-                  )
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "TLC",
+                    transactionModel.tiketModel.destination,
                     style: blackTextStyle.copyWith(
                         fontSize: 24.sp, fontWeight: semiBold),
                   ),
-                  Text(
-                    "Ciliwung",
-                    style: greyTextStyle.copyWith(
-                        fontSize: 14.sp, fontWeight: light),
-                  )
                 ],
               )
             ],
@@ -74,61 +69,79 @@ class CheckoutPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               horizontal: AppDimen.w20, vertical: AppDimen.h30),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // NOTE: DESTINATION TILE
               Text(
-                "Lembar-Tanjung Perak",
+                "Booking Details",
                 style: blackTextStyle.copyWith(
-                    fontSize: 18.sp, fontWeight: medium),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                  fontWeight: semiBold,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.start,
               ),
-              // NOTE: BOOKING DETAILS TEXT
+              BookingDetailItem(
+                  title: "Pemesan",
+                  valueText: "Riki Hikmianto",
+                  valueColor: blackColor),
+              BookingDetailItem(
+                  title: "Jumlah",
+                  valueText: "${transactionModel.totalPerson} person",
+                  valueColor: blackColor),
+              (transactionModel.paketMakan != 0)
+                  ? BookingDetailItem(
+                      title: "Paket Makan",
+                      valueText: transactionModel.paketMakan.toString(),
+                      valueColor: blackColor)
+                  : const SizedBox(),
+              (transactionModel.paketMotor != 0)
+                  ? BookingDetailItem(
+                      title: "Paket Motor",
+                      valueText: transactionModel.paketMotor.toString(),
+                      valueColor: blackColor)
+                  : const SizedBox(),
+              (transactionModel.paketMobil != 0)
+                  ? BookingDetailItem(
+                      title: "Paket Mobil",
+                      valueText: transactionModel.paketMotor.toString(),
+                      valueColor: blackColor)
+                  : const SizedBox(),
+              (transactionModel.paketTruk != 0)
+                  ? BookingDetailItem(
+                      title: "Paket Truk",
+                      valueText: transactionModel.paketTruk.toString(),
+                      valueColor: blackColor)
+                  : const SizedBox(),
+              BookingDetailItem(
+                  title: "Bayar Ditempat",
+                  valueText: "YES",
+                  valueColor: greenColor),
+              BookingDetailItem(
+                title: "No. WA",
+                valueText: transactionModel.numberWA,
+                valueColor: blackColor,
+              ),
+              BookingDetailItem(
+                  title: "Harga Tiket",
+                  valueText: NumberFormat.currency(
+                          locale: 'id', symbol: 'IDR ', decimalDigits: 0)
+                      .format(transactionModel.price),
+                  valueColor: blackColor),
+              BookingDetailItem(
+                  title: "Total Harga",
+                  valueText: NumberFormat.currency(
+                          locale: 'id', symbol: 'IDR ', decimalDigits: 0)
+                      .format(transactionModel.grandTotal),
+                  valueColor: primaryColor),
               SizedBox(
-                height: 20.h,
+                height: 16.h,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Booking Details",
-                    style: blackTextStyle.copyWith(
-                      fontWeight: semiBold,
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                  BookingDetailItem(
-                      title: "Pemesan",
-                      valueText: "Riki Hikmianto",
-                      valueColor: blackColor),
-                  BookingDetailItem(
-                      title: "Jumlah",
-                      valueText: "2 person",
-                      valueColor: blackColor),
-                  BookingDetailItem(
-                      title: "Paket",
-                      valueText: "Makan, Motor",
-                      valueColor: blackColor),
-                  BookingDetailItem(
-                      title: "Bayar Ditempat",
-                      valueText: "YES",
-                      valueColor: greenColor),
-                  BookingDetailItem(
-                    title: "No. WA",
-                    valueText: "081999546890",
-                    valueColor: blackColor,
-                  ),
-                  BookingDetailItem(
-                      title: "Harga Tiket",
-                      valueText: "IDR 100.000",
-                      valueColor: blackColor),
-                  BookingDetailItem(
-                      title: "Total Harga",
-                      valueText: "IDR 530.000",
-                      valueColor: primaryColor),
-                ],
-              )
+              Center(
+                child: Text(
+                  "LINK JADWAL KEBERANGKATAN",
+                  style: purpleTextStyle.copyWith(
+                      fontSize: 14.sp, fontWeight: semiBold),
+                ),
+              ),
             ],
           ),
         ),
@@ -149,7 +162,7 @@ class CheckoutPage extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "Payment Details",
+                "Keterangan",
                 style: purpleTextStyle.copyWith(
                     fontSize: 14.sp, fontWeight: semiBold),
               ),
@@ -168,8 +181,7 @@ class CheckoutPage extends StatelessWidget {
       );
     }
 
-    Widget paymentButton() {
-
+    Widget backButton() {
       return CustomButton(
           title: "Halaman Utama",
           onPressed: () {
@@ -205,7 +217,7 @@ class CheckoutPage extends StatelessWidget {
             informationDetails(),
             Padding(
               padding: EdgeInsets.symmetric(vertical: AppDimen.h30),
-              child: paymentButton(),
+              child: backButton(),
             ),
             tacButton(),
             SizedBox(

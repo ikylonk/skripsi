@@ -6,7 +6,7 @@ class TransactionModel extends Equatable {
   final TiketModel tiketModel;
   final int price, grandTotal;
   final int paketMakan, paketMotor, paketMobil, paketTruk, totalPerson;
-  final numberWA;
+  final String numberWA;
   final bool payOnTheSpot;
 
   const TransactionModel({
