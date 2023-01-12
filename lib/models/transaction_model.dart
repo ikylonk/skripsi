@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:skripsi/models/tiket_model.dart';
 
 class TransactionModel extends Equatable {
-  final String id;
+  final String id, name, userId;
   final TiketModel tiketModel;
   final int price, grandTotal;
   final int paketMakan, paketMotor, paketMobil, paketTruk, totalPerson;
@@ -10,6 +10,8 @@ class TransactionModel extends Equatable {
   final bool payOnTheSpot;
 
   const TransactionModel({
+    this.userId = "",
+    this.name = "",
     this.id = "",
     required this.tiketModel,
     this.totalPerson = 0,
@@ -28,6 +30,8 @@ class TransactionModel extends Equatable {
         id: id,
         tiketModel: TiketModel.fromJson(json['tiket']['id'], json['tiket']),
         totalPerson: json['totalPerson'],
+        userId: json['userId'],
+        name: json['name'],
         grandTotal: json['grandTotal'],
         price: json['price'],
         paketMakan: json['paketMakan'],
@@ -41,6 +45,8 @@ class TransactionModel extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        userId,
+        name,
         tiketModel,
         price,
         grandTotal,

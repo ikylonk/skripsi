@@ -10,6 +10,8 @@ class TransactionService {
       await _transactionFirestore.add({
         'tiket': transactionModel.tiketModel.toJson(),
         'grandTotal': transactionModel.grandTotal,
+        'name': transactionModel.name,
+        'userId': transactionModel.userId,
         'price': transactionModel.price,
         'paketMakan': transactionModel.paketMakan,
         'paketMotor': transactionModel.paketMotor,

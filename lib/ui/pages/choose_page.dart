@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:skripsi/cubit/authentication/auth_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_makan_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_mobil_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_motor_cubit.dart';
@@ -328,6 +329,8 @@ class ChoosePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => SuccessPage(TransactionModel(
+                    name: context.read<AuthCubit>().name!,
+                    userId: context.read<AuthCubit>().userId!,
                     tiketModel: tiketModel,
                     totalPerson: context.read<PeopleCubit>().state,
                     paketMobil: context.read<PaketMobilCubit>().state,
@@ -363,6 +366,8 @@ class ChoosePage extends StatelessWidget {
                 context
                     .read<TransactionCubit>()
                     .createTransaction(TransactionModel(
+                      name: context.read<AuthCubit>().name!,
+                      userId: context.read<AuthCubit>().userId!,
                       tiketModel: tiketModel,
                       totalPerson: context.read<PeopleCubit>().state,
                       paketMobil: context.read<PaketMobilCubit>().state,
