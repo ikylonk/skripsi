@@ -9,7 +9,8 @@ import 'package:skripsi/models/harbor_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/widgets/destination_card.dart';
-import 'package:skripsi/ui/widgets/destination_tile.dart';
+import 'package:skripsi/ui/widgets/destination_tiket.dart';
+import 'package:skripsi/ui/widgets/destination_transaction.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> {
           ));
     }
 
-    Widget newDestination() {
+    Widget tiketDestination() {
       return Padding(
         padding: EdgeInsets.only(
             left: AppDimen.margin, right: AppDimen.margin, top: AppDimen.h10),
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                   return Column(
                       children: state.tikets
                           .map((tiketModel) =>
-                              DestinationTile(tiketModel: tiketModel))
+                              DestinationTiket(tiketModel: tiketModel))
                           .toList());
                 } else {
                   return const Center(
@@ -253,7 +254,7 @@ class _HomePageState extends State<HomePage> {
             }
           },
         ),
-        newDestination(),
+        tiketDestination(),
         SizedBox(
           height: 100.h,
         )

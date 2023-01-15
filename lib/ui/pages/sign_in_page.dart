@@ -28,14 +28,18 @@ class SignInPage extends StatelessWidget {
     Widget inputSection() {
       Widget emailInput() {
         return CustomTextFormField(
-            controller: emailController, title: 'Email Address', keyboardType: TextInputType.emailAddress,);
+          controller: emailController,
+          title: 'Email Address',
+          keyboardType: TextInputType.emailAddress,
+        );
       }
 
       Widget passwordInput() {
         return CustomTextFormField(
           controller: passwordController,
           title: 'Password',
-          obscureText: true, keyboardType: TextInputType.text,
+          obscureText: true,
+          keyboardType: TextInputType.text,
         );
       }
 
@@ -44,7 +48,8 @@ class SignInPage extends StatelessWidget {
           listener: (context, state) {
             if (state is AuthSuccess) {
               Navigator.pushNamedAndRemoveUntil(
-                  context, AppRoutes.main, (route) => false);
+                  context, AppRoutes.main, (route) => false,
+                  arguments: state.userModel.role);
             } else if (state is AuthFailed) {
               debugPrint(state.error);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -187,21 +192,6 @@ class SignInPage extends StatelessWidget {
       );
     }
 
-    Widget tacButton() {
-      return GestureDetector(
-        child: Center(
-          child: Text(
-            "LOGIN ADMIN!",
-            style: greyTextStyle.copyWith(
-              fontSize: 16.sp,
-              fontWeight: light,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -214,10 +204,6 @@ class SignInPage extends StatelessWidget {
             SizedBox(
               height: 50.h,
             ),
-            tacButton(),
-            SizedBox(
-              height: 73.h,
-            )
           ],
         ),
       ),

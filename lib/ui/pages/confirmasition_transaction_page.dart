@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -10,10 +11,10 @@ import 'package:skripsi/ui/widgets/booking_detail_item.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TransactionDetailPage extends StatelessWidget {
+class ConfirmationTransactionPage extends StatelessWidget {
   final TransactionModel transactionModel;
 
-  const TransactionDetailPage(this.transactionModel, {Key? key})
+  const ConfirmationTransactionPage(this.transactionModel, {Key? key})
       : super(key: key);
 
   @override
@@ -25,6 +26,35 @@ class TransactionDetailPage extends StatelessWidget {
         await launchUrl(uri);
       } else {
         throw 'Could not launch $url';
+      }
+    }
+
+    void openWhatsapp(
+        {required BuildContext context,
+        required String text,
+        required String number}) async {
+      var whatsapp = number;
+      var whatsappURlAndroid =
+          "whatsapp://send?phone=" + whatsapp + "&text=$text";
+      var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
+      if (Platform.isIOS) {
+        // for iOS phone only
+        if (await canLaunchUrl(Uri.parse(whatsappURLIos))) {
+          await launchUrl(Uri.parse(
+            whatsappURLIos,
+          ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Whatsapp not installed")));
+        }
+      } else {
+        // android , web
+        if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
+          await launchUrl(Uri.parse(whatsappURlAndroid));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Whatsapp not installed")));
+        }
       }
     }
 
@@ -164,59 +194,17 @@ class TransactionDetailPage extends StatelessWidget {
       );
     }
 
-    Widget informationDetails() {
-      return Card(
-        elevation: 5,
-        color: whiteColor,
-        margin: EdgeInsets.only(top: 30.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimen.radius),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: AppDimen.w10, vertical: AppDimen.h20),
-          child: Column(
-            children: [
-              Text(
-                "Keterangan",
-                style: purpleTextStyle.copyWith(
-                    fontSize: 14.sp, fontWeight: semiBold),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Text(
-                "Silahkan menunggu tiket ini untuk verifikasi pembayaran di loket tiket pelabuhan",
-                style: blackTextStyle.copyWith(
-                    fontSize: 14.sp, fontWeight: semiBold),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    Widget backButton() {
+    Widget confirmationButton() {
       return CustomButton(
-          title: "Halaman Utama",
+          title: "Konfirmasi",
           onPressed: () {
+            openWhatsapp(
+                context: context,
+                text: "silahkan lakukan pembayaran disini",
+                number: transactionModel.numberWA);
             Navigator.pushNamedAndRemoveUntil(
-                context, AppRoutes.main, (route) => false);
+                context, AppRoutes.admin, (route) => false);
           });
-    }
-
-    Widget tacButton() {
-      return Center(
-        child: Text(
-          "Kontak kami!",
-          style: greyTextStyle.copyWith(
-            fontSize: 16.sp,
-            fontWeight: light,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      );
     }
 
     return Scaffold(
@@ -230,14 +218,9 @@ class TransactionDetailPage extends StatelessWidget {
           children: [
             headerRoute(),
             bookingDetails(),
-            informationDetails(),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: AppDimen.h30),
-              child: backButton(),
-            ),
-            tacButton(),
-            SizedBox(
-              height: AppDimen.h30,
+              padding: EdgeInsets.only(top: AppDimen.h30, bottom: AppDimen.h60),
+              child: confirmationButton(),
             ),
           ],
         ),
