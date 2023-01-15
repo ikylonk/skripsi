@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skripsi/models/tiket_model.dart';
+import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/pages/detail_page.dart';
+import 'package:skripsi/ui/pages/confirmasition_transaction_page.dart';
 
-class DestinationTile extends StatelessWidget {
-  final TiketModel tiketModel;
+class DestinationTransaction extends StatelessWidget {
+  final TransactionModel transactionModel;
 
-  const DestinationTile({
+  const DestinationTransaction(
+    this.transactionModel, {
     Key? key,
-    required this.tiketModel,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class DestinationTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DetailPage(tiketModel),
+          builder: (context) => ConfirmationTransactionPage(transactionModel),
         ),
       ),
       child: Container(
@@ -29,15 +29,22 @@ class DestinationTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimen.radius),
             color: whiteColor),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${tiketModel.from} - ${tiketModel.destination}",
+                  transactionModel.name,
                   style: blackTextStyle.copyWith(
                       fontSize: 18.sp, fontWeight: medium),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  transactionModel.numberWA,
+                  style: greyTextStyle.copyWith(
+                      fontSize: 14.sp, fontWeight: light),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

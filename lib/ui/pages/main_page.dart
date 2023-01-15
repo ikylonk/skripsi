@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skripsi/cubit/page_cubit.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
+import 'package:skripsi/ui/pages/admin_page.dart';
 import 'package:skripsi/ui/pages/home_page.dart';
 import 'package:skripsi/ui/pages/payment_page.dart';
 import 'package:skripsi/ui/pages/setting_page.dart';
@@ -14,6 +15,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments;
+
     Widget buildContent(int currentIndex) {
       switch (currentIndex) {
         case 0:
@@ -77,14 +80,15 @@ class MainPage extends StatelessWidget {
     return BlocBuilder<PageCubit, int>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: backgroundColor,
-          body: Stack(
-            children: [
-              buildContent(state),
-              customBottomNavigation(),
-            ],
-          ),
-        );
+            backgroundColor: backgroundColor,
+            body: (args == "admin")
+                ? AdminPage()
+                : Stack(
+                    children: [
+                      buildContent(state),
+                      customBottomNavigation(),
+                    ],
+                  ));
       },
     );
   }
