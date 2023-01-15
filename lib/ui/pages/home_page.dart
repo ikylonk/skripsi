@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
             left: AppDimen.margin, right: AppDimen.margin, top: AppDimen.h30),
         child: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
+            User? user = FirebaseAuth.instance.currentUser;
             if (state is AuthSuccess) {
               return Row(
                 children: [
@@ -72,7 +74,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             } else if (state is AuthGoogleSuccess) {
-              debugPrint(state.userCredential.user?.displayName);
               return Row(
                 children: [
                   Expanded(
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hey,\n${state.userCredential.user?.displayName}",
+                          "Hey,\n${user?.displayName}",
                           style: blackTextStyle.copyWith(
                               fontSize: 24.sp, fontWeight: semiBold),
                           maxLines: 2,
@@ -113,6 +114,44 @@ class _HomePageState extends State<HomePage> {
             } else if (state is AuthLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
+              );
+            } else if (state is AuthInitial) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hey,\n${user?.displayName}",
+                          style: blackTextStyle.copyWith(
+                              fontSize: 24.sp, fontWeight: semiBold),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          height: AppDimen.h6,
+                        ),
+                        Text(
+                          "Ayo berpergian sekarang!",
+                          style: greyTextStyle.copyWith(
+                              fontSize: 16.sp, fontWeight: light),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 60.w,
+                    height: 60.h,
+                    decoration: BoxDecoration(
+                        color: whiteColor,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage('assets/image_profile.png'))),
+                  )
+                ],
               );
             } else {
               return Center(

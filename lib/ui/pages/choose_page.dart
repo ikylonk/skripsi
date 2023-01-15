@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:skripsi/cubit/authentication/auth_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_makan_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_mobil_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_motor_cubit.dart';
@@ -35,6 +35,10 @@ class ChoosePage extends StatelessWidget {
         context.read<PaketMotorCubit>().paketMotor +
         context.read<PaketMobilCubit>().paketMobil +
         context.read<PaketTrukCubit>().paketTruk;
+
+    User? user = FirebaseAuth.instance.currentUser;
+    var name = user?.displayName;
+    var userId = user?.uid;
 
     Widget title() {
       return Text(
@@ -329,8 +333,8 @@ class ChoosePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => SuccessPage(TransactionModel(
-                    name: context.read<AuthCubit>().name!,
-                    userId: context.read<AuthCubit>().userId!,
+                    name: name.toString(),
+                    userId: userId.toString(),
                     tiketModel: tiketModel,
                     totalPerson: context.read<PeopleCubit>().state,
                     paketMobil: context.read<PaketMobilCubit>().state,
@@ -363,22 +367,29 @@ class ChoosePage extends StatelessWidget {
             return CustomButton(
               title: "Pesan Tiket",
               onPressed: () {
-                context
-                    .read<TransactionCubit>()
-                    .createTransaction(TransactionModel(
-                      name: context.read<AuthCubit>().name!,
-                      userId: context.read<AuthCubit>().userId!,
-                      tiketModel: tiketModel,
-                      totalPerson: context.read<PeopleCubit>().state,
-                      paketMobil: context.read<PaketMobilCubit>().state,
-                      paketMotor: context.read<PaketMotorCubit>().state,
-                      paketMakan: context.read<PaketMakanCubit>().state,
-                      paketTruk: context.read<PaketTrukCubit>().state,
-                      grandTotal: granTotal,
-                      payOnTheSpot: true,
-                      numberWA: nomerWaController.text,
-                      price: tiketModel.price,
-                    ));
+                if (nomerWaController.text.isNotEmpty) {
+                  context
+                      .read<TransactionCubit>()
+                      .createTransaction(TransactionModel(
+                        name: name.toString(),
+                        userId: userId.toString(),
+                        tiketModel: tiketModel,
+                        totalPerson: context.read<PeopleCubit>().state,
+                        paketMobil: context.read<PaketMobilCubit>().state,
+                        paketMotor: context.read<PaketMotorCubit>().state,
+                        paketMakan: context.read<PaketMakanCubit>().state,
+                        paketTruk: context.read<PaketTrukCubit>().state,
+                        grandTotal: granTotal,
+                        payOnTheSpot: true,
+                        numberWA: nomerWaController.text,
+                        price: tiketModel.price,
+                      ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Silahkan masukan Nomer Whatsapp anda"),
+                    backgroundColor: redColor,
+                  ));
+                }
               },
             );
           }

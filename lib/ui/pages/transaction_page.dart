@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,8 @@ class TransactionPage extends StatefulWidget {
 class _TransactionPageState extends State<TransactionPage> {
   @override
   void initState() {
-    context.read<TransactionCubit>().filter(context.read<AuthCubit>().userId!);
+    User? user = FirebaseAuth.instance.currentUser;
+    context.read<TransactionCubit>().filter(user!.uid);
     super.initState();
   }
 
