@@ -30,13 +30,22 @@ class ConfirmationTransactionPage extends StatelessWidget {
     }
 
     void openWhatsapp(
-        {required BuildContext context,
-        required String text,
-        required String number}) async {
-      var whatsapp = number;
+        {required BuildContext context, required String number}) async {
+      String phoneNumber;
+
+      if (number.contains("0", 0)) {
+        phoneNumber = number.replaceRange(0, 1, '62');
+      } else if (number.contains("+62", 0)) {
+        phoneNumber = number.replaceRange(0, 1, '62');
+      } else {
+        phoneNumber = number;
+      }
+      var message =
+          "Bukti pesanan\nID: ${transactionModel.id}\nNama: ${transactionModel.name}\nTotal Pembayaran: ${NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(transactionModel.grandTotal)}\nTanggal Pembayaran: ${DateFormat('dd-MM-yyyy').format(DateTime.now())}\nTerimakasih sudah memesan di layanan aplikasi kami";
+
       var whatsappURlAndroid =
-          "whatsapp://send?phone=" + whatsapp + "&text=$text";
-      var whatsappURLIos = "https://wa.me/$whatsapp?text=${Uri.tryParse(text)}";
+          "whatsapp://send?phone=" + phoneNumber + "&text=$message";
+      var whatsappURLIos = "https://wa.me/$phoneNumber?text=$message";
       if (Platform.isIOS) {
         // for iOS phone only
         if (await canLaunchUrl(Uri.parse(whatsappURLIos))) {
@@ -198,10 +207,7 @@ class ConfirmationTransactionPage extends StatelessWidget {
       return CustomButton(
           title: "Konfirmasi",
           onPressed: () {
-            openWhatsapp(
-                context: context,
-                text: "silahkan lakukan pembayaran disini",
-                number: transactionModel.numberWA);
+            openWhatsapp(context: context, number: transactionModel.numberWA);
             Navigator.pushNamedAndRemoveUntil(
                 context, AppRoutes.admin, (route) => false);
           });
