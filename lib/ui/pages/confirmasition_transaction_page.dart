@@ -31,7 +31,15 @@ class ConfirmationTransactionPage extends StatelessWidget {
 
     void openWhatsapp(
         {required BuildContext context, required String number}) async {
-      var phoneNumber = number.replaceRange(0, 1, '62');
+      String phoneNumber;
+
+      if (number.contains("0", 0)) {
+        phoneNumber = number.replaceRange(0, 1, '62');
+      } else if (number.contains("+62", 0)) {
+        phoneNumber = number.replaceRange(0, 1, '62');
+      } else {
+        phoneNumber = number;
+      }
       var message =
           "Bukti pesanan\nID: ${transactionModel.id}\nNama: ${transactionModel.name}\nTotal Pembayaran: ${NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(transactionModel.grandTotal)}\nTanggal Pembayaran: ${DateFormat('dd-MM-yyyy').format(DateTime.now())}\nTerimakasih sudah memesan di layanan aplikasi kami";
 
