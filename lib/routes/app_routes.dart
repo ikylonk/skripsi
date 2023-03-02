@@ -6,6 +6,8 @@ abstract class AppRoutes {
   static const main = _Paths.main;
   static const detail = _Paths.detail;
   static const choose = _Paths.choose;
+  static const payment = _Paths.payment;
+  static const confirmationPayment = _Paths.confirmationPayment;
   static const checkout = _Paths.checkout;
   static const success = _Paths.success;
   static const admin = _Paths.admin;
@@ -19,6 +21,8 @@ abstract class _Paths {
   static const main = '/main';
   static const detail = '/detail';
   static const choose = '/choose-seat';
+  static const payment = '/choose-payment';
+  static const confirmationPayment = '/confirmation-payment';
   static const checkout = '/checkout';
   static const success = '/success';
   static const admin = '/admin';

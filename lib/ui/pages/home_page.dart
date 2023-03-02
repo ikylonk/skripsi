@@ -8,7 +8,7 @@ import 'package:skripsi/cubit/tiket/tiket_cubit.dart';
 import 'package:skripsi/models/harbor_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/widgets/destination_card.dart';
+import 'package:skripsi/ui/widgets/harbor_card.dart';
 import 'package:skripsi/ui/widgets/destination_tiket.dart';
 import 'package:skripsi/ui/widgets/destination_transaction.dart';
 
