@@ -8,9 +8,8 @@ import 'package:skripsi/cubit/tiket/tiket_cubit.dart';
 import 'package:skripsi/models/harbor_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/widgets/harbor_card.dart';
 import 'package:skripsi/ui/widgets/destination_tiket.dart';
-import 'package:skripsi/ui/widgets/destination_transaction.dart';
+import 'package:skripsi/ui/widgets/harbor_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -202,6 +201,18 @@ class _HomePageState extends State<HomePage> {
               },
               builder: (context, state) {
                 if (state is TiketSuccess) {
+                  if (state.tikets.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: AppDimen.h30),
+                        child: Text(
+                          "Maaf tiket tidak tersedia",
+                          style: blackTextStyle.copyWith(
+                              fontWeight: semiBold, fontSize: 18.sp),
+                        ),
+                      ),
+                    );
+                  }
                   return Column(
                       children: state.tikets
                           .map((tiketModel) =>

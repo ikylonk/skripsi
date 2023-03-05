@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
@@ -162,8 +164,8 @@ class ConfirmationTransactionPage extends StatelessWidget {
                       valueColor: blackColor)
                   : const SizedBox(),
               BookingDetailItem(
-                  title: "Bayar Ditempat",
-                  valueText: "YES",
+                  title: "Keberangkatan",
+                  valueText: transactionModel.date,
                   valueColor: greenColor),
               BookingDetailItem(
                 title: "No. WA",
@@ -204,13 +206,50 @@ class ConfirmationTransactionPage extends StatelessWidget {
     }
 
     Widget confirmationButton() {
-      return CustomButton(
-          title: "Konfirmasi",
-          onPressed: () {
-            openWhatsapp(context: context, number: transactionModel.numberWA);
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoutes.admin, (route) => false);
-          });
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomButton(
+              title: "Hapus",
+              width: MediaQuery.of(context).size.width / 2.5,
+              color: redColor,
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Hapus Data"),
+                        content: Text("Yakin ingin menghapus data ini?"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Batal")),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                context
+                                    .read<TransactionCubit>()
+                                    .delete(transactionModel.id.toString());
+                              },
+                              child: Text("Hapus"))
+                        ],
+                      );
+                    });
+              }),
+          CustomButton(
+              title: "Konfirmasi",
+              width: MediaQuery.of(context).size.width / 2.5,
+              onPressed: () {
+                openWhatsapp(
+                    context: context, number: transactionModel.numberWA);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, AppRoutes.admin, (route) => false);
+              }),
+        ],
+      );
     }
 
     return Scaffold(

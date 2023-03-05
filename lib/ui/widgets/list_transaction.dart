@@ -5,10 +5,10 @@ import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/pages/confirmasition_transaction_page.dart';
 
-class DestinationTransaction extends StatelessWidget {
+class TransactionList extends StatelessWidget {
   final TransactionModel transactionModel;
 
-  const DestinationTransaction(
+  const TransactionList(
     this.transactionModel, {
     Key? key,
   }) : super(key: key);

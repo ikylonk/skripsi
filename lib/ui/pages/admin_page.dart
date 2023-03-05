@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/widgets/destination_transaction.dart';
+import 'package:skripsi/ui/widgets/list_transaction.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -73,7 +73,7 @@ class _AdminPageState extends State<AdminPage> {
                   shrinkWrap: true,
                   itemCount: state.transactions.length,
                   padding: EdgeInsets.symmetric(horizontal: AppDimen.margin),
-                  itemBuilder: (context, index) => DestinationTransaction(
+                  itemBuilder: (context, index) => TransactionList(
                     state.transactions[index],
                   ),
                 );
