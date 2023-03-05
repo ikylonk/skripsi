@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:skripsi/models/transaction_model.dart';
-import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
+import 'package:skripsi/ui/pages/choose_pembayaran_page.dart';
 import 'package:skripsi/ui/widgets/booking_detail_item.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -123,8 +123,8 @@ class TransactionDetailPage extends StatelessWidget {
                       valueColor: blackColor)
                   : const SizedBox(),
               BookingDetailItem(
-                  title: "Bayar Ditempat",
-                  valueText: "YES",
+                  title: "Keberangkatan",
+                  valueText: transactionModel.date,
                   valueColor: greenColor),
               BookingDetailItem(
                 title: "No. WA",
@@ -186,7 +186,7 @@ class TransactionDetailPage extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                "Silahkan menunggu tiket ini untuk verifikasi pembayaran di loket tiket pelabuhan",
+                "Silahkan melakukan pembyaran untuk memvalidasi tiket anda",
                 style: blackTextStyle.copyWith(
                     fontSize: 14.sp, fontWeight: semiBold),
                 textAlign: TextAlign.center,
@@ -197,26 +197,17 @@ class TransactionDetailPage extends StatelessWidget {
       );
     }
 
-    Widget backButton() {
+    Widget paymentButton() {
       return CustomButton(
-          title: "Halaman Utama",
+          title: "Halaman pembayaran",
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, AppRoutes.main, (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChoosePaymentPage(transactionModel),
+                ),
+                (route) => false);
           });
-    }
-
-    Widget tacButton() {
-      return Center(
-        child: Text(
-          "Kontak kami!",
-          style: greyTextStyle.copyWith(
-            fontSize: 16.sp,
-            fontWeight: light,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      );
     }
 
     return Scaffold(
@@ -233,9 +224,8 @@ class TransactionDetailPage extends StatelessWidget {
             informationDetails(),
             Padding(
               padding: EdgeInsets.symmetric(vertical: AppDimen.h30),
-              child: backButton(),
+              child: paymentButton(),
             ),
-            tacButton(),
             SizedBox(
               height: AppDimen.h30,
             ),

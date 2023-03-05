@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/cubit/payment_cubit.dart';
+import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/widgets/list_payment_card.dart';
+import 'package:skripsi/ui/pages/confirmation_payment_page.dart';
+import 'package:skripsi/ui/widgets/payment_card.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key}) : super(key: key);
+class ChoosePaymentPage extends StatefulWidget {
+  final TransactionModel transactionModel;
+
+  const ChoosePaymentPage(this.transactionModel, {Key? key}) : super(key: key);
 
   @override
-  State<PaymentPage> createState() => _PaymentPageState();
+  State<ChoosePaymentPage> createState() => _ChoosePaymentPageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _ChoosePaymentPageState extends State<ChoosePaymentPage> {
   @override
   void initState() {
     context.read<PaymentCubit>().fetchPayment();
@@ -24,7 +28,7 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     Widget title() {
       return Text(
-        "Daftar Rekening\nPembayaran",
+        "Pilih Metode\nPembayaran",
         style: blackTextStyle.copyWith(fontWeight: semiBold, fontSize: 24.sp),
       );
     }
@@ -49,9 +53,16 @@ class _PaymentPageState extends State<PaymentPage> {
                   if (state is PaymentSuccess) {
                     return Column(
                         children: state.payments
-                            .map((paymentModel) => ListPaymentCard(
+                            .map((paymentModel) => PaymentCard(
                                   paymentModel: paymentModel,
-                                  onPressed: () {},
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConfirmationPaymentPage(
+                                                widget.transactionModel,
+                                                paymentModel),
+                                      )),
                                 ))
                             .toList());
                   } else {
@@ -61,9 +72,6 @@ class _PaymentPageState extends State<PaymentPage> {
                   }
                 },
               ),
-              SizedBox(
-                height: 200.h,
-              )
             ],
           ),
         ));

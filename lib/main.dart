@@ -12,6 +12,7 @@ import 'package:skripsi/cubit/paket/paket_mobil_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_motor_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_truk_cubit.dart';
 import 'package:skripsi/cubit/paket/people_cubit.dart';
+import 'package:skripsi/cubit/payment_cubit.dart';
 import 'package:skripsi/cubit/tiket/tiket_cubit.dart';
 import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/firebase_options.dart';
@@ -76,6 +77,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider(
                 create: (context) => TransactionCubit(),
+              ),
+              BlocProvider(
+                create: (context) => PaymentCubit(),
               ),
             ],
             child: MaterialApp(

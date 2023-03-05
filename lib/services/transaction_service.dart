@@ -20,6 +20,7 @@ class TransactionService {
         'totalPerson': transactionModel.totalPerson,
         'numberWA': transactionModel.numberWA,
         'payOnTheSpot': transactionModel.payOnTheSpot,
+        'date': transactionModel.date,
       });
     } catch (e) {
       rethrow;

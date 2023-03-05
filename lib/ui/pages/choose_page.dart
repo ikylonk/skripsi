@@ -9,12 +9,11 @@ import 'package:skripsi/cubit/paket/paket_mobil_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_motor_cubit.dart';
 import 'package:skripsi/cubit/paket/paket_truk_cubit.dart';
 import 'package:skripsi/cubit/paket/people_cubit.dart';
-import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/models/tiket_model.dart';
 import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
-import 'package:skripsi/ui/pages/success_page.dart';
+import 'package:skripsi/ui/pages/transaction_detail_page.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 import 'package:skripsi/ui/widgets/custom_text_form_field.dart';
 
@@ -27,6 +26,7 @@ class ChoosePage extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController nomerWaController = TextEditingController();
+  final TextEditingController dateTimeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -313,7 +313,11 @@ class ChoosePage extends StatelessWidget {
               SizedBox(
                 height: 12.h,
               ),
-              CustomTextFormField(
+              CustomTextFormFieldDate(
+                controller: dateTimeController,
+                title: "Pilih Tanggal Kebarangkatan",
+              ),
+              CustomTextFormFieldNumberPhone(
                 controller: nomerWaController,
                 title:
                     "Silahkan Masukan Nomer whatsapp\nuntuk verifikasi tiket yang dipesanan",
@@ -326,54 +330,19 @@ class ChoosePage extends StatelessWidget {
     }
 
     Widget checkoutButton() {
-      return BlocConsumer<TransactionCubit, TransactionState>(
-        listener: (context, state) {
-          if (state is TransactionSuccess) {
-            Navigator.pushAndRemoveUntil(
+      return CustomButton(
+        title: "Pesan Tiket",
+        onPressed: () {
+          if (nomerWaController.text.isNotEmpty &&
+              dateTimeController.text.isNotEmpty) {
+            Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SuccessPage(TransactionModel(
-                    name: name.toString(),
-                    userId: userId.toString(),
-                    tiketModel: tiketModel,
-                    totalPerson: context.read<PeopleCubit>().state,
-                    paketMobil: context.read<PaketMobilCubit>().state,
-                    paketMotor: context.read<PaketMotorCubit>().state,
-                    paketMakan: context.read<PaketMakanCubit>().state,
-                    paketTruk: context.read<PaketTrukCubit>().state,
-                    grandTotal: granTotal,
-                    payOnTheSpot: true,
-                    numberWA: nomerWaController.text,
-                    price: tiketModel.price,
-                  )),
-                ),
-                (route) => false);
-          } else if (state is TransactionFailed) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(state.error),
-              backgroundColor: redColor,
-            ));
-          }
-        },
-        builder: (context, state) {
-          if (state is TransactionLoading) {
-            return Padding(
-              padding: EdgeInsets.only(top: AppDimen.h30),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            return CustomButton(
-              title: "Pesan Tiket",
-              onPressed: () {
-                if (nomerWaController.text.isNotEmpty) {
-                  context
-                      .read<TransactionCubit>()
-                      .createTransaction(TransactionModel(
+                  builder: (context) => TransactionDetailPage(
+                    TransactionModel(
+                        tiketModel: tiketModel,
                         name: name.toString(),
                         userId: userId.toString(),
-                        tiketModel: tiketModel,
                         totalPerson: context.read<PeopleCubit>().state,
                         paketMobil: context.read<PaketMobilCubit>().state,
                         paketMotor: context.read<PaketMotorCubit>().state,
@@ -383,15 +352,15 @@ class ChoosePage extends StatelessWidget {
                         payOnTheSpot: true,
                         numberWA: nomerWaController.text,
                         price: tiketModel.price,
-                      ));
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Silahkan masukan Nomer Whatsapp anda"),
-                    backgroundColor: redColor,
-                  ));
-                }
-              },
-            );
+                        date: dateTimeController.text),
+                  ),
+                ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  "Silahkan masukan Nomer Whatsapp dan pilih tanggal keberangkatan anda"),
+              backgroundColor: redColor,
+            ));
           }
         },
       );

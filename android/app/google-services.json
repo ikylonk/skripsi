@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "2809199428-kquti5qvmmhli6tij0rugal5a8kjnkvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.skripsi",
+            "certificate_hash": "c4660ad64380a7fd985ff4f6109da56d39a17d58"
+          }
+        },
+        {
           "client_id": "2809199428-cttpbp68kvb6s9pdcbgusa6nk23tkjc9.apps.googleusercontent.com",
           "client_type": 3
         }
