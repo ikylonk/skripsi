@@ -6,6 +6,7 @@ import 'package:skripsi/shared/theme.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final double width;
+  final Color color;
   final double height;
   final Function() onPressed;
 
@@ -13,6 +14,7 @@ class CustomButton extends StatelessWidget {
       {Key? key,
       required this.title,
       this.width = double.infinity,
+      this.color = const Color(0xff5C40CC),
       this.height = 55,
       required this.onPressed})
       : super(key: key);
@@ -25,7 +27,7 @@ class CustomButton extends StatelessWidget {
         child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              primary: primaryColor,
+              primary: color,
               onPrimary: blackColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppDimen.margin)),

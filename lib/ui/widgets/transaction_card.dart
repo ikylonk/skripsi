@@ -68,8 +68,8 @@ class TransactionCard extends StatelessWidget {
                     valueColor: blackColor)
                 : const SizedBox(),
             BookingDetailItem(
-                title: "Bayar Ditempat",
-                valueText: "YES",
+                title: "Keberangkatan",
+                valueText: transactionModel.date,
                 valueColor: greenColor),
             BookingDetailItem(
               title: "No. WA",

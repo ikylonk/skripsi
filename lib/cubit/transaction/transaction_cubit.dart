@@ -41,4 +41,17 @@ class TransactionCubit extends Cubit<TransactionState> {
       emit(TransactionFailed(e.toString()));
     }
   }
+
+  Future<void> delete(String id) async {
+    try {
+      emit(TransactionLoading());
+      await TransactionService().delete(id);
+      List<TransactionModel> transactions =
+          await TransactionService().fetchTransaction();
+      emit(TransactionSuccess(transactions));
+      debugPrint('delete transaction success');
+    } catch (e) {
+      emit(TransactionFailed(e.toString()));
+    }
+  }
 }

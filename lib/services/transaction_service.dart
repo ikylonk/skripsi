@@ -44,14 +44,23 @@ class TransactionService {
 
   Future<List<TransactionModel>> filter(String userId) async {
     try {
-      QuerySnapshot result = await _transactionFirestore.where("userId", isEqualTo: userId).get();
+      QuerySnapshot result =
+          await _transactionFirestore.where("userId", isEqualTo: userId).get();
 
       List<TransactionModel> transactions = result.docs
           .map((e) =>
-          TransactionModel.fromJson(e.id, e.data() as Map<String, dynamic>))
+              TransactionModel.fromJson(e.id, e.data() as Map<String, dynamic>))
           .toList();
 
       return transactions;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> delete(String id) async {
+    try {
+      return _transactionFirestore.doc(id).delete();
     } catch (e) {
       rethrow;
     }
