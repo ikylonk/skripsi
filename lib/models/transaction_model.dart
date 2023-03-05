@@ -6,7 +6,7 @@ class TransactionModel extends Equatable {
   final TiketModel tiketModel;
   final int price, grandTotal;
   final int paketMakan, paketMotor, paketMobil, paketTruk, totalPerson;
-  final String numberWA;
+  final String numberWA, date;
   final bool payOnTheSpot;
 
   const TransactionModel({
@@ -23,6 +23,7 @@ class TransactionModel extends Equatable {
     this.paketTruk = 0,
     this.numberWA = "",
     this.payOnTheSpot = true,
+    this.date = "",
   });
 
   factory TransactionModel.fromJson(String id, Map<String, dynamic> json) =>
@@ -39,6 +40,7 @@ class TransactionModel extends Equatable {
         paketMobil: json['paketMobil'],
         paketTruk: json['paketTruk'],
         numberWA: json['numberWA'],
+        date: json['date'],
         payOnTheSpot: json['payOnTheSpot'],
       );
 
@@ -57,5 +59,6 @@ class TransactionModel extends Equatable {
         totalPerson,
         numberWA,
         payOnTheSpot,
+        date,
       ];
 }

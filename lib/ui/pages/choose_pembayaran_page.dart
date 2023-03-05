@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skripsi/cubit/payment_cubit.dart';
-import 'package:skripsi/routes/app_routes.dart';
+import 'package:skripsi/models/transaction_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
+import 'package:skripsi/ui/pages/confirmation_payment_page.dart';
 import 'package:skripsi/ui/widgets/payment_card.dart';
 
 class ChoosePaymentPage extends StatefulWidget {
-  const ChoosePaymentPage({Key? key}) : super(key: key);
+  final TransactionModel transactionModel;
+
+  const ChoosePaymentPage(this.transactionModel, {Key? key}) : super(key: key);
 
   @override
   State<ChoosePaymentPage> createState() => _ChoosePaymentPageState();
@@ -52,8 +55,14 @@ class _ChoosePaymentPageState extends State<ChoosePaymentPage> {
                         children: state.payments
                             .map((paymentModel) => PaymentCard(
                                   paymentModel: paymentModel,
-                                  onPressed: () => Navigator.pushNamed(
-                                      context, AppRoutes.confirmationPayment),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConfirmationPaymentPage(
+                                                widget.transactionModel,
+                                                paymentModel),
+                                      )),
                                 ))
                             .toList());
                   } else {

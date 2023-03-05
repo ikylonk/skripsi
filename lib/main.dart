@@ -18,8 +18,6 @@ import 'package:skripsi/cubit/transaction/transaction_cubit.dart';
 import 'package:skripsi/firebase_options.dart';
 import 'package:skripsi/routes/app_routes.dart';
 import 'package:skripsi/ui/pages/admin_page.dart';
-import 'package:skripsi/ui/pages/choose_pembayaran_page.dart';
-import 'package:skripsi/ui/pages/confirmation_payment_page.dart';
 import 'package:skripsi/ui/pages/get_started_page.dart';
 import 'package:skripsi/ui/pages/main_page.dart';
 import 'package:skripsi/ui/pages/sign_in_page.dart';
@@ -93,8 +91,6 @@ class MyApp extends StatelessWidget {
                 AppRoutes.signup: (context) => SignUpPage(),
                 AppRoutes.main: (context) => const MainPage(),
                 AppRoutes.admin: (context) => const AdminPage(),
-                AppRoutes.payment: (context) => const ChoosePaymentPage(),
-                AppRoutes.confirmationPayment: (context) => const ConfirmationPaymentPage(),
               },
               initialRoute: AppRoutes.splash,
             ),

@@ -4,11 +4,11 @@ import 'package:skripsi/models/payment_model.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 
-class PaymentCard extends StatelessWidget {
+class ListPaymentCard extends StatelessWidget {
   final PaymentModel paymentModel;
   final VoidCallback? onPressed;
 
-  const PaymentCard({Key? key, required this.paymentModel, this.onPressed})
+  const ListPaymentCard({Key? key, required this.paymentModel, this.onPressed})
       : super(key: key);
 
   @override
@@ -42,11 +42,13 @@ class PaymentCard extends StatelessWidget {
                     style: blackTextStyle.copyWith(
                         fontSize: 16.sp, fontWeight: medium),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                   Text(
-                    "30 mins",
+                    paymentModel.number,
                     style: greyTextStyle.copyWith(fontSize: 12.sp),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
                 ],
               ),
