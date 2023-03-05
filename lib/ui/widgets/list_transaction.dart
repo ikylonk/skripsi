@@ -31,24 +31,33 @@ class TransactionList extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  transactionModel.name,
-                  style: blackTextStyle.copyWith(
-                      fontSize: 18.sp, fontWeight: medium),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  transactionModel.numberWA,
-                  style: greyTextStyle.copyWith(
-                      fontSize: 14.sp, fontWeight: light),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    transactionModel.name,
+                    style: blackTextStyle.copyWith(
+                        fontSize: 18.sp, fontWeight: medium),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    transactionModel.numberWA,
+                    style: greyTextStyle.copyWith(
+                        fontSize: 14.sp, fontWeight: light),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              transactionModel.date,
+              style:
+                  greenTextStyle.copyWith(fontSize: 14.sp, fontWeight: light),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
