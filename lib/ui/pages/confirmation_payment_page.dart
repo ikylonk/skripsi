@@ -34,6 +34,7 @@ class _ConfirmationPaymentPageState extends State<ConfirmationPaymentPage> {
 
   @override
   void initState() {
+    // timer untuk menavigasi transaksi melewati batas waktu pembayaran
     timer = Timer(const Duration(minutes: 30), () {
       Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.main, (route) => false);
@@ -44,6 +45,7 @@ class _ConfirmationPaymentPageState extends State<ConfirmationPaymentPage> {
   @override
   void dispose() {
     super.dispose();
+    // menghentikan timer
     timer.cancel();
   }
 
@@ -61,7 +63,7 @@ class _ConfirmationPaymentPageState extends State<ConfirmationPaymentPage> {
         phoneNumber = number;
       }
       var message =
-          "Konfirmasi pesanan\nID: ${widget.transactionModel.id}\nNama: ${widget.transactionModel.name}\nTotal Pembayaran: ${NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(widget.transactionModel.grandTotal)}\nSilahkan upload bukti pembayaran disini";
+          "Konfirmasi pesanan\nUser Id: ${widget.transactionModel.userId}\nNama: ${widget.transactionModel.name}\nKeberangkatan: ${widget.transactionModel.date}\nTotal Pembayaran: ${NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(widget.transactionModel.grandTotal)}\nSilahkan upload bukti pembayaran disini";
 
       var whatsappURlAndroid =
           "whatsapp://send?phone=" + phoneNumber + "&text=$message";
@@ -77,7 +79,7 @@ class _ConfirmationPaymentPageState extends State<ConfirmationPaymentPage> {
               const SnackBar(content: Text("Whatsapp not installed")));
         }
       } else {
-        // android , web
+        // android
         if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
           await launchUrl(Uri.parse(whatsappURlAndroid));
         } else {
@@ -285,7 +287,7 @@ class _ConfirmationPaymentPageState extends State<ConfirmationPaymentPage> {
                       context
                           .read<TransactionCubit>()
                           .createTransaction(widget.transactionModel);
-                      openWhatsapp(context: context, number: "6282146657210");
+                      openWhatsapp(context: context, number: "082146657210");
                     },
                   );
                 }

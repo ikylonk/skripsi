@@ -88,16 +88,6 @@ class TransactionCard extends StatelessWidget {
                         locale: 'id', symbol: 'IDR ', decimalDigits: 0)
                     .format(transactionModel.grandTotal),
                 valueColor: primaryColor),
-            SizedBox(
-              height: 16.h,
-            ),
-            Center(
-              child: Text(
-                "LINK JADWAL KEBERANGKATAN",
-                style: purpleTextStyle.copyWith(
-                    fontSize: 14.sp, fontWeight: semiBold),
-              ),
-            ),
           ],
         ),
       ),

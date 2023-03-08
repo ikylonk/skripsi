@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skripsi/cubit/payment_cubit.dart';
+import 'package:skripsi/cubit/payment/payment_cubit.dart';
 import 'package:skripsi/shared/app_dimen.dart';
 import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/widgets/list_payment_card.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -18,11 +17,15 @@ class TransactionDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // url launcher jadwal kapal
     void launchURL() async {
-      const url = 'http://damailautannusantara.com/DLN-JAN23.pdf';
+      const url = 'https://damailautannusantara.com/DLN-MAR23.pdf';
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
       } else {
         throw 'Could not launch $url';
       }
@@ -90,53 +93,63 @@ class TransactionDetailPage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.start,
               ),
+              // nama pemesan
               BookingDetailItem(
                   title: "Pemesan",
                   valueText: transactionModel.name,
                   valueColor: blackColor),
+              // jumlah penumpang
               BookingDetailItem(
                   title: "Jumlah",
                   valueText: "${transactionModel.totalPerson} person",
                   valueColor: blackColor),
+              // jumlah paket makan
               (transactionModel.paketMakan != 0)
                   ? BookingDetailItem(
                       title: "Paket Makan",
                       valueText: transactionModel.paketMakan.toString(),
                       valueColor: blackColor)
                   : const SizedBox(),
+              // jumlah paket motor
               (transactionModel.paketMotor != 0)
                   ? BookingDetailItem(
                       title: "Paket Motor",
                       valueText: transactionModel.paketMotor.toString(),
                       valueColor: blackColor)
                   : const SizedBox(),
+              // jumlah paket mobil
               (transactionModel.paketMobil != 0)
                   ? BookingDetailItem(
                       title: "Paket Mobil",
                       valueText: transactionModel.paketMotor.toString(),
                       valueColor: blackColor)
                   : const SizedBox(),
+              // jumlah paket truk
               (transactionModel.paketTruk != 0)
                   ? BookingDetailItem(
                       title: "Paket Truk",
                       valueText: transactionModel.paketTruk.toString(),
                       valueColor: blackColor)
                   : const SizedBox(),
+              // jadwal keberangkatan
               BookingDetailItem(
                   title: "Keberangkatan",
                   valueText: transactionModel.date,
                   valueColor: greenColor),
+              // nomer watshapp
               BookingDetailItem(
                 title: "No. WA",
                 valueText: transactionModel.numberWA,
                 valueColor: blackColor,
               ),
+              // harga tiket
               BookingDetailItem(
                   title: "Harga Tiket",
                   valueText: NumberFormat.currency(
                           locale: 'id', symbol: 'IDR ', decimalDigits: 0)
                       .format(transactionModel.price),
                   valueColor: blackColor),
+              // total harga
               BookingDetailItem(
                   title: "Total Harga",
                   valueText: NumberFormat.currency(
@@ -149,6 +162,7 @@ class TransactionDetailPage extends StatelessWidget {
               Center(
                 child: TextButton(
                   onPressed: () {
+                    // menampilkan jawdal kapal
                     launchURL();
                   },
                   child: Text(

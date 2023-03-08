@@ -5,8 +5,10 @@ import 'package:skripsi/models/user_model.dart';
 import 'package:skripsi/services/user_service.dart';
 
 class AuthService {
+  // insiasi collection firebase authentikasi
   final _firebaseAuth = FirebaseAuth.instance;
 
+  // fungsi untuk login dengan email dan password
   Future<UserModel> signIn(
       {required String email, required String password}) async {
     try {
@@ -21,6 +23,7 @@ class AuthService {
     }
   }
 
+  // fungsi untuk login dengan email dan password
   Future<UserModel> signUp({
     required String email,
     required String password,
@@ -44,6 +47,7 @@ class AuthService {
     }
   }
 
+  // fungsi untuk logout
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
@@ -52,6 +56,7 @@ class AuthService {
     }
   }
 
+  // fungsi untuk login dengan google
   Future<UserCredential> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn(

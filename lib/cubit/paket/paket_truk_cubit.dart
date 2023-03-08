@@ -3,10 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 class PaketTrukCubit extends Cubit<int> {
   var paketTruk = 0;
+  // initial state is 0
   PaketTrukCubit({this.paketTruk = 0}) : super(0);
 
+  // untuk menambahkan jumlah truk
   void increment() => emit(state + 1);
 
+  // untuk mengurangi jumlah truk
   void decrement() {
     if (state > 0) {
       emit(state - 1);
@@ -16,6 +19,7 @@ class PaketTrukCubit extends Cubit<int> {
   }
 
   @override
+  // fungsi ini akan dipanggil setiap kali state berubah
   void onChange(Change<int> change) {
     if (change.nextState > 0) {
       paketTruk = change.nextState * 150000;

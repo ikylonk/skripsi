@@ -12,6 +12,7 @@ import 'package:skripsi/shared/theme.dart';
 import 'package:skripsi/ui/widgets/booking_detail_item.dart';
 import 'package:skripsi/ui/widgets/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ConfirmationTransactionPage extends StatelessWidget {
   final TransactionModel transactionModel;
@@ -21,16 +22,21 @@ class ConfirmationTransactionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // url launcher jadwal kapal
     void launchURL() async {
-      const url = 'http://damailautannusantara.com/DLN-JAN23.pdf';
+      const url = 'https://damailautannusantara.com/DLN-MAR23.pdf';
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
       } else {
         throw 'Could not launch $url';
       }
     }
 
+    // url open whatsapp aplikasi
     void openWhatsapp(
         {required BuildContext context, required String number}) async {
       String phoneNumber;
@@ -43,13 +49,18 @@ class ConfirmationTransactionPage extends StatelessWidget {
         phoneNumber = number;
       }
       var message =
-          "Bukti pesanan\nID: ${transactionModel.id}\nNama: ${transactionModel.name}\nTotal Pembayaran: ${NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(transactionModel.grandTotal)}\nTanggal Pembayaran: ${DateFormat('dd-MM-yyyy').format(DateTime.now())}\nTerimakasih sudah memesan di layanan aplikasi kami";
+          "Bukti pesanan\nId Pesanan: ${transactionModel.id}\nNama: ${transactionModel.name}\nTotal Pembayaran: "
+          "${NumberFormat.currency(locale: 'id', symbol: 'IDR ', decimalDigits: 0).format(transactionModel.grandTotal)}\n"
+          "Tanggal Pembayaran: ${DateFormat('dd-MM-yyyy').format(DateTime.now())}\nTerimakasih sudah memesan di layanan aplikasi kami";
 
+      // link untuk android
       var whatsappURlAndroid =
           "whatsapp://send?phone=" + phoneNumber + "&text=$message";
+      // link untuk android
       var whatsappURLIos = "https://wa.me/$phoneNumber?text=$message";
+
+      // cek platform
       if (Platform.isIOS) {
-        // for iOS phone only
         if (await canLaunchUrl(Uri.parse(whatsappURLIos))) {
           await launchUrl(Uri.parse(
             whatsappURLIos,
@@ -59,7 +70,7 @@ class ConfirmationTransactionPage extends StatelessWidget {
               const SnackBar(content: Text("Whatsapp not installed")));
         }
       } else {
-        // android , web
+        // android
         if (await canLaunchUrl(Uri.parse(whatsappURlAndroid))) {
           await launchUrl(Uri.parse(whatsappURlAndroid));
         } else {
